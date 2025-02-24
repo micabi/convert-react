@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg enable-background="new 0 0 39.917 35.519" version="1.1" viewBox="0 0 39.917 35.519" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+
+<circle cx="20.458" cy="18.26" r="3.626" fill="#61DAFB"/>
+<g fill="none" stroke="#61DAFB">
+	<ellipse cx="20.458" cy="18.26" rx="19.458" ry="7.43"/>
+	
+		<ellipse transform="matrix(.866 -.5 .5 .866 -6.3891 12.676)" cx="20.458" cy="18.26" rx="7.429" ry="19.458"/>
+	
+		<ellipse transform="matrix(.866 .5 -.5 .866 11.872 -7.7832)" cx="20.458" cy="18.26" rx="7.429" ry="19.458"/>
+</g>
+</svg>
