@@ -1,6 +1,6 @@
-name: Jest Test Github Actions
+name: Jest & Stylelint & ESLint Github Actions
 
-run-name: ${{ github.actor }} is Jest testing out GitHub Actions🚀
+run-name: ${{ github.actor }} is Jest & Stylelint & ESLint testing out GitHub Actions🚀
 
 on:
   push:
