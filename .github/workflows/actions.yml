@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: initial setup
-        uses: ./.github/workflows/common/common.yml
+        uses: ./.github/workflows/common
       - name: Run Tests
         run: npm test
       - name: Show Status
@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: initial setup
-        uses: ./.github/workflows/common/common.yml
+        uses: ./.github/workflows/common
       - name: Run Stylelint
         run: npx stylelint "src/**/*.scss"
       - name: Show Status
@@ -38,7 +38,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: initial setup
-        uses: ./.github/workflows/common/common.yml
+        uses: ./.github/workflows/common
       - name: Run Eslint
         run: npx eslint .
       - name: Show Status
