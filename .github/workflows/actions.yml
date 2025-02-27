@@ -5,7 +5,7 @@ run-name: ${{ github.actor }} is Jest testing out GitHub Actions🚀
 on: [push]
 
 jobs:
-  TEST:
+  Jest:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,9 +16,43 @@ jobs:
           node-version: '22'
       - name: List files in the repository
         run: ls ${{ github.workspace }}
+      - name: Show Status
+        run: echo "🍏 This job's status is ${{ job.status }}"
       - name: Install packages
         run: npm ci
       - name: Install Dependencies
         run: npm install
       - name: Run Tests
         run: npm test
+
+  Stylelint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install packages
+        run: npm ci
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Stylelint
+        run: npx stylelint "src/**/*.scss"
+
+  Eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install packages
+        run: npm ci
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Eslint
+        run: npx eslint "src/**/*.(ts|tsx)"
