@@ -66,7 +66,7 @@ function plus2Numbers(text: string): (boolean | number)[] {
 }
 
 /**
- * 引数に与えられた要素が[0-9]に該当するかどうか
+ * 引数に与えられた配列の各要素が[0-9]に該当するかどうか
  * @param(引数): {String}
  * @return(戻り値) {Boolean}
  */
