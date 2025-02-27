@@ -7,6 +7,11 @@ on:
     branches:
       - develop
 
+env:
+  SLACK_USERNAME: 'GitHub Actions'
+  SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+
 jobs:
   Jest:
     runs-on: ubuntu-latest
@@ -72,23 +77,18 @@ jobs:
           fields: ${{ job.status }}
           text: ${{ job.status }} - ${{ github.repository }}
           color: ${{ job.status == 'success' && 'good' || 'danger' }}
-          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
         if: ${{ success()}}
         env:
-          SLACK_TITLE: 'Jest & Stylelint & ESLint Github Actions'
+          SLACK_TITLE: 'Jest & Stylelint & ESLint SUCCESS'
           SLACK_MESSAGE: 'All tests passed successfully'
           SLACK_COLOR: 'good'
-          SLACK_USERNAME: 'GitHub Actions'
-          SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
 
       - name: Slack Notification on Failure
         uses: rtCamp/action-slack-notify@v2
 
         if: ${{ failure()}}
         env:
-          SLACK_TITLE: 'Jest & Stylelint & ESLint Github Actions'
+          SLACK_TITLE: 'Jest & Stylelint & ESLint FAILED'
           SLACK_MESSAGE: 'Some tests failed'
           SLACK_COLOR: 'danger'
-          SLACK_USERNAME: 'GitHub Actions'
-          SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
