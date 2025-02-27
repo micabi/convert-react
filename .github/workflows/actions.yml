@@ -2,7 +2,10 @@ name: Jest Test Github Actions
 
 run-name: ${{ github.actor }} is Jest testing out GitHub Actions🚀
 
-on: [push]
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
   Jest:
@@ -10,49 +13,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: List files in the repository
-        run: ls ${{ github.workspace }}
-      - name: Show Status
-        run: echo "🍏 This job's status is ${{ job.status }}"
-      - name: Install packages
-        run: npm ci
-      - name: Install Dependencies
-        run: npm install
+      - name: initial setup
+        uses: ./.github/workflows/common/common.yml
       - name: Run Tests
         run: npm test
+      - name: Show Status
+        run: echo "🍏 Jest job's status is ${{ job.status }}"
 
   Stylelint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Install packages
-        run: npm ci
-      - name: Install Dependencies
-        run: npm install
+      - name: initial setup
+        uses: ./.github/workflows/common/common.yml
       - name: Run Stylelint
         run: npx stylelint "src/**/*.scss"
+      - name: Show Status
+        run: echo "🍏 Stylelint job's is ${{ job.status }}"
 
   Eslint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Install packages
-        run: npm ci
-      - name: Install Dependencies
-        run: npm install
+      - name: initial setup
+        uses: ./.github/workflows/common/common.yml
       - name: Run Eslint
         run: npx eslint .
+      - name: Show Status
+        run: echo "🍏 Eslint job's is ${{ job.status }}"
