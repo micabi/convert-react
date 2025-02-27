@@ -1,0 +1,99 @@
+@use 'tailwindcss';
+
+@theme {
+  --font-sans:
+    'Hiragino Kaku Gothic Pro', yugothic, meiryo, 'Lucida Grande', verdana, helvetica, arial, 'MS PGothic', sans-serif;
+  --font-serif: 'Hiragino Mincho ProN', 'Hiragino Mincho Pro', 游明朝, 'Yu Mincho', yumincho, serif;
+  --base-color: var(--color-neutral-800);
+  --breakpoint-xs: 24rem;
+}
+
+@layer base {
+  html {
+    tab-size: 2;
+  }
+}
+
+@layer utilities {
+  .sm\:w-3xs {
+    width: var(--container-3xs);
+  }
+}
+
+:root {
+  font-family: var(--font-sans);
+  color: var(--base-color);
+}
+
+#root {
+  width: var(--container-4xl);
+  max-width: var(--container-7xl);
+  margin: 0 auto;
+  font-family: var(--font-sans);
+  text-align: center;
+}
+
+@media screen and (width <= 40rem) {
+  #root {
+    max-width: var(--container-xs);
+    min-height: 100%;
+  }
+}
+
+.box {
+  padding: 0 20px;
+  text-align: left;
+}
+
+.output {
+  display: none;
+  padding: 1rem;
+  margin-top: 1.5rem;
+
+  &::before {
+    display: block;
+    color: var(--color-neutral-300);
+    content: '入力されたテキスト';
+  }
+
+  &.active {
+    display: block;
+  }
+}
+
+.final {
+  position: relative;
+  display: none;
+  padding: 1rem;
+  margin-top: 1.5rem;
+
+  &.active {
+    display: block;
+  }
+}
+
+.final .btn {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+.err {
+  display: none;
+  padding: 1rem;
+  margin-top: 1.5rem;
+
+  &.warn {
+    display: block;
+  }
+}
+
+.message {
+  opacity: 0;
+  transition: all 0.1s linear;
+
+  &.active {
+    opacity: 1;
+  }
+}

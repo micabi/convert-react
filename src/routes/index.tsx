@@ -1,4 +1,4 @@
-import '../App.css';
+// import '../App.scss';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { ConvertTable } from '../table';
 import { Symbol2NumberInputArea } from '../symbol2number';
