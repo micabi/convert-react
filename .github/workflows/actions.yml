@@ -1,6 +1,6 @@
 name: Jest Test Github Actions
 
-run-name: ${{ github.actor }} is testing out GitHub Actions🚀
+run-name: ${{ github.actor }} is Jest testing out GitHub Actions🚀
 
 on: [push]
 
@@ -11,11 +11,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
       - name: List files in the repository
         run: ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job status }}"
       - name: Install packages
         run: npm ci
       - name: Install Dependencies
