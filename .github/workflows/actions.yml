@@ -44,14 +44,14 @@ jobs:
       - name: Show Status
         run: echo "🍏 Eslint job's is ${{ job.status }}"
 
-    Build:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
-        - name: initial setup
-          uses: ./.github/workflows/common
-        - name: Run Build
-          run: npm run build
-        - name: Show Status
-          run: echo "🍏 Build job's is ${{ job.status }}"
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: initial setup
+        uses: ./.github/workflows/common
+      - name: Run Build
+        run: npm run build
+      - name: Show Status
+        run: echo "🍏 Build job's is ${{ job.status }}"
