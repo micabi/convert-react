@@ -8,6 +8,8 @@ jobs:
   TEST:
     runs-on: ubuntu-latest
     steps:
+      - name: Status Check
+      - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Checkout
         uses: actions/checkout@v4
       - name: Use Node.js
@@ -16,7 +18,6 @@ jobs:
           node-version: '22'
       - name: List files in the repository
         run: ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job status }}"
       - name: Install packages
         run: npm ci
       - name: Install Dependencies
