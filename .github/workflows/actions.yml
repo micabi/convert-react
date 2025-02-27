@@ -18,7 +18,7 @@ jobs:
       - name: Run Tests
         run: npm test
       - name: Show Status
-        run: echo "🍏 Jest job's status is ${{ job.status }}"
+        run: echo "Jest job's status is ${{ job.status }}🍏"
 
   Stylelint:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
       - name: Run Stylelint
         run: npx stylelint "src/**/*.scss"
       - name: Show Status
-        run: echo "🍏 Stylelint job's is ${{ job.status }}"
+        run: echo "Stylelint job's is ${{ job.status }}🍏"
 
   Eslint:
     runs-on: ubuntu-latest
@@ -42,7 +42,7 @@ jobs:
       - name: Run Eslint
         run: npx eslint .
       - name: Show Status
-        run: echo "🍏 Eslint job's is ${{ job.status }}"
+        run: echo "Eslint job's is ${{ job.status }}🍏"
 
   Build:
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
       - name: Run Build
         run: npm run build
       - name: Show Status
-        run: echo "🍏 Build job's is ${{ job.status }}"
+        run: echo "Build job's is ${{ job.status }}🍏 "
 
   SlackNotification:
     runs-on: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
         if: ${{ success()}}
         env:
           SLACK_TITLE: 'Jest & Stylelint & ESLint SUCCESS'
-          SLACK_MESSAGE: 'All tests passed successfully'
+          SLACK_MESSAGE: 'Jest & Stylelint & ESLintに全てパスしました。🎉'
           SLACK_COLOR: 'good'
           SLACK_USERNAME: 'GitHub Actions'
           SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
@@ -78,7 +78,7 @@ jobs:
         if: ${{ failure()}}
         env:
           SLACK_TITLE: 'Jest & Stylelint & ESLint FAILED'
-          SLACK_MESSAGE: 'Some tests failed'
+          SLACK_MESSAGE: 'Jest & Stylelint & ESLintのいずれかが失敗しました。😢'
           SLACK_COLOR: 'danger'
           SLACK_USERNAME: 'GitHub Actions'
           SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
