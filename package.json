@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "elint": "eslint .",
+    "lint": "eslint .",
     "slint": "stylelint src/*.{css,scss}",
-    "slint:f": "stylelint src/*.{css,scss} --fix",
+    "slint:fix": "stylelint src/*.{css,scss} --fix",
     "format": "prettier --write src",
     "preview": "vite preview",
     "test": "npx jest"
