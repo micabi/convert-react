@@ -95,6 +95,53 @@ VSCodeでは依然としてエラーが出るので
 
 これでエラーにならなくなる。
 
+## SCSSを導入したので追記
+
+```shell
+npm i -D sass-embedded postcss-scss stylelint-scss stylelint-config-standard-scss
+```
+
+### 変更
+
+```javascript
+.stylelintrc.js
+
+export default {
+  "plugins": [
+    "stylelint-scss",
+    "stylelint-prettier"
+  ],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-standard-scss",
+    "stylelint-config-recess-order",
+  ],
+  "overrides": [{
+    files: ['**/*.scss'],
+    customSyntax: 'postcss-scss'
+  }],
+  ...
+  "rules": {
+    "prettier/prettier": true,
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": [true,{
+      "ignoreAtRules": ["theme", "use", "forward"]
+    }]
+  }
+```
+
+./.vscode/settings.json
+VSCodeのStylelintでscssファイル内でtailwindcssの@themeがエラーだと言われるので。
+
+```json
+{
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.scss": "tailwindcss"
+  },
+}
+```
+
 ## 本番環境をbuildするときに①sources.mapを作り、②console.logを消す
 
 ```javascript
