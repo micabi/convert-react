@@ -32,11 +32,12 @@ jobs:
       run: |
         npx firebase deploy --project ${{ secrets.FIREBASE_PROJECT_ID }}
     - name: Remove Credentials File
-      if: success() || failure()
+      if: ${{success() || failure()}}
       run: |
         rm "private-key.json"
-    - name: Show Status
-      if: success()
+    - name: Deploy Success
+      if: ${{success()}}
       run: echo "Deployment job's status is ${{ job.status }}🍏"
-      if: failure()
+    - name: Deploy Failure
+      if: ${{failure()}}
       run: echo "Deployment job's status is ${{ job.status }}🍎"
