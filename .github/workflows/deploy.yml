@@ -29,9 +29,12 @@ jobs:
       run: |
         echo "${{ secrets.SERVICE_ACCOUNT_KEY}}" | base64 --decode > "private-key.json"
     - name: deploy to Firebase Hosting
-      run: |
-        npx firebase login --interactive
-        npx firebase deploy --project ${{ secrets.FIREBASE_PROJECT_ID }}
+      uses: w9jds/firebase-action@v1.5.0
+      with:
+        args: deploy --only hosting
+      env:
+        GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+        PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
     - name: Remove Credentials File
       if: ${{success() || failure()}}
       run: |
