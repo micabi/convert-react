@@ -20,7 +20,7 @@ function Index(): JSX.Element {
           <Number2SymbolInputArea />
         </div>
       </div>
-      <div className="fixed inset-x-0 bottom-5">
+      <div className="fixed right-5 top-5">
         <p>
           <a className="cursor-pointer" onClick={(): void => navigate('/help')}>
             help ?

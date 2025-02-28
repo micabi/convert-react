@@ -6,7 +6,7 @@ function Help(): JSX.Element {
 
   return (
     <>
-      <div className="convert-container flex flex-wrap justify-between sm:mb-6 sm:flex-none">
+      <div className="convert-container flex flex-wrap justify-between sm:flex-none">
         <div className="box bg-violet-100 !py-3.5 md:w-1/2">
           <p>
             記号から数字に変換します。
@@ -99,7 +99,7 @@ function Help(): JSX.Element {
         </div>
       </div>
 
-      <div className="md:fixed md:inset-x-0 md:bottom-5">
+      <div className="fixed right-5 top-5">
         <a
           className="cursor-pointer"
           onClick={(): void => {
