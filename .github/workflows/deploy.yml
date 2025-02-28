@@ -11,6 +11,8 @@ jobs:
   Build_and_Deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: pribate-key.json
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v4
@@ -23,6 +25,18 @@ jobs:
       run: npm install
     - name: Build
       run: npm run build
+    - name: Prepare Credentials
+      run: |
+        echo "${{ secrets.SERVICE_ACCOUNT_KEY}}" | base64 --decode > "private-key.json"
     - name: deploy to Firebase Hosting
       run: |
-        npx firebase deploy --project ${{ secrets.FIREBASE_PROJECT_ID }} --token=${{ secrets.FIREBASE_TOKEN }}
+        npx firebase deploy --project ${{ secrets.FIREBASE_PROJECT_ID }}
+    - name: Remove Credentials File
+      if: success() || failure()
+      run: |
+        rm "private-key.json"
+    - name: Show Status
+      if: success()
+      run: echo "Deployment job's status is ${{ job.status }}🍏"
+      if: failure()
+      run: echo "Deployment job's status is ${{ job.status }}🍎"
