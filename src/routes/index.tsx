@@ -1,4 +1,4 @@
-// import '../App.scss';
+import '../App.scss';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { ConvertTable } from '../table';
 import { Symbol2NumberInputArea } from '../symbol2number';
@@ -20,7 +20,7 @@ function Index(): JSX.Element {
           <Number2SymbolInputArea />
         </div>
       </div>
-      <div className="fixed right-5 top-5">
+      <div className="fixed top-5 right-5">
         <p>
           <a className="cursor-pointer" onClick={(): void => navigate('/help')}>
             help ?

@@ -1,4 +1,4 @@
-// import '../App.scss';
+import '../App.scss';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 
 function Help(): JSX.Element {
@@ -99,7 +99,9 @@ function Help(): JSX.Element {
         </div>
       </div>
 
-      <div className="fixed right-5 top-5">
+      {/* <div className="test"></div> */}
+
+      <div className="fixed top-5 right-5">
         <a
           className="cursor-pointer"
           onClick={(): void => {

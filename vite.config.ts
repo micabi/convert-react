@@ -39,7 +39,7 @@ export default defineConfig( ( { mode } ) => {
         plugins: [
           license( {
             thirdParty: {
-              output: '.dist/assets/vendor.LICENSE.txt',
+              output: './dist/assets/vendor.LICENSE.txt',
             }
           } ),
         ]
