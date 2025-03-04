@@ -11,7 +11,7 @@ function Number2SymbolInputArea(props: {
   copyNumberBtnClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   clearNumber: () => void;
 }): JSX.Element {
-  console.log(props);
+  // console.log(props);
 
   return (
     <>

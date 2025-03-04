@@ -220,15 +220,17 @@ function Index(): JSX.Element {
 
       // 入力された値全体に対してバリデーション
       const isInvalidArray: (boolean | number)[] = validateNumArray(inputArray);
+      console.log(isInvalidArray);
+      console.log(inputArray);
       if (isInvalidArray[0] === true) {
         isOkay = false;
         const arrayIndex = isInvalidArray[1] as number;
-        const errMsg: string = `不適切な文字が入っています。(${inputArray[arrayIndex - 1]}番目の文字  「${inputArray[arrayIndex - 1]}」)`;
+        console.log(arrayIndex);
+        const errMsg: string = `不適切な文字が入っています。(${arrayIndex}番目の文字  「${inputArray[arrayIndex - 1]}」)`;
         setErrNumberText(errMsg);
         seTNumberErr(true);
         setActivateNumberOutput(false);
         setActivateNumberFinal(false);
-        setInputNumberVal('');
       }
 
       if (isOkay) {
