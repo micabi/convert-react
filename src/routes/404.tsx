@@ -3,8 +3,8 @@ import '../App.scss';
 function Nomatch(): JSX.Element {
   return (
     <>
-      <p>404 Not Found</p>
-      <p>このページは存在しません。</p>
+      <p className="text-slate-400">404 Not Found</p>
+      <p className="text-slate-400">このページは存在しません。</p>
     </>
   );
 }

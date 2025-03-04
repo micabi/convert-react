@@ -103,7 +103,7 @@ function Help(): JSX.Element {
 
       <div className="fixed top-5 right-5">
         <a
-          className="cursor-pointer"
+          className="cursor-pointer !text-violet-800 hover:!text-violet-400"
           onClick={(): void => {
             navigate('/');
           }}
