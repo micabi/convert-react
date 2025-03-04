@@ -1,3 +1,15 @@
+/**
+ * @license Convert
+ * Name: Convert
+ * Version: 0.0.1
+ * License: MIT
+ * Private: true
+ * Description: ore
+ * Repository: https://github.com/micabi/convert
+ * Author: micabi <info@codecode.xyz>
+ * License Copyright:
+ */
+
 import '../App.scss';
 import React, { useState } from 'react';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
