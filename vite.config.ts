@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import license from 'rollup-plugin-license';
+import path from 'node:path';
 
 // https://vite.dev/config/
 // export default defineConfig({
@@ -38,8 +39,15 @@ export default defineConfig( ( { mode } ) => {
       rollupOptions: {
         plugins: [
           license( {
+            sourcemap: true,
             thirdParty: {
-              output: '.dist/assets/vendor.LICENSE.txt',
+              includePrivate: true,
+              multipleVersions: true,
+              // output: './dist/assets/vendor.LICENSE.txt',
+              output: {
+                file: path.join(__dirname, 'dist', 'assets', 'vendor.LICENSE.txt'),
+                encoding: 'utf-8'
+              }
             }
           } ),
         ]
