@@ -95,6 +95,24 @@ VSCodeでは依然としてエラーが出るので
 
 これでエラーにならなくなる。
 
+## Tailwindcssでブレイクポイントを追加する
+
+```javascript
+tailwind.config.jsに追記
+
+import { defaultTheme } from 'tailwindcss/defaultTheme';
+
+export default {
+  ...
+  theme: {
+    screens: {
+      'xs': '375px',
+      ...defaultTheme.screens,
+    }
+  }
+}
+```
+
 ## SCSSを導入したので追記
 
 ```shell
@@ -142,11 +160,23 @@ VSCodeのStylelintでscssファイル内でtailwindcssの@themeがエラーだ�
 }
 ```
 
-## 本番環境をbuildするときに①sources.mapを作り、②console.logを消す
+## vite.config.jsの設定
+
+### SCSSの使用
+
+### ライセンス情報を外部ファイル化
+
+### 本番環境でconsole.logを消す
+
+### 本番環境でSourcesmapを有効にする
 
 ```javascript
 
 // vite.config.ts
+import license from 'rollup-plugin-license'; // ライセンス情報を外部ファイル化
+import path from 'node:path';
+
+
 export default defineConfig( ( { mode } ) => {
 
   return {
@@ -155,11 +185,34 @@ export default defineConfig( ( { mode } ) => {
       tailwindcss(),
     ],
     // other configuration
+    css: { // SCSSを使う設定
+      devSourcemap: true,
+      preprocessorOptions: {
+        scss: 'modern-compiler',
+      }
+    },
     esbuild: {
+      banner: '/*! licenses: /assets/vendor.LICENSE.txt */',
+      legalComments: 'external',
       pure: mode === 'production' ? [ 'console.log' ] : []
     },
     build: {
-      sourcemap: true
+      sourcemap: true,
+      rollupOptions: {
+        plugins: [
+          license( {
+            sourcemap: true,
+            thirdParty: {
+              includePrivate: true,
+              multipleVersions: true,
+              output: {
+                file: path.join(__dirname, 'dist', 'assets', 'vendor.LICENSE.txt'),
+                encoding: 'utf-8'
+              }
+            }
+          } ),
+        ]
+      }
     }
   };
 } );
