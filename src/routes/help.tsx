@@ -6,8 +6,8 @@ function Help(): JSX.Element {
 
   return (
     <>
-      <div className="convert-container flex flex-wrap justify-between sm:flex-none">
-        <div className="box bg-violet-100 !py-3.5 md:w-1/2">
+      <div className="convert-container flex flex-col flex-wrap justify-center gap-x-0 gap-y-5 md:flex-row md:justify-between md:gap-x-5 md:gap-y-0">
+        <div className="box md:w-50-gap-x-5 w-full bg-violet-100 !py-3.5">
           <p>
             記号から数字に変換します。
             <br />
@@ -52,7 +52,7 @@ function Help(): JSX.Element {
             </tbody>
           </table>
         </div>
-        <div className="box bg-yellow-100 !py-3.5 md:w-1/2">
+        <div className="box md:w-50-gap-x-5 w-full bg-yellow-100 !py-3.5">
           <p>
             数字から記号に変換します。
             <br />
@@ -103,7 +103,7 @@ function Help(): JSX.Element {
 
       <div className="fixed top-5 right-5">
         <a
-          className="cursor-pointer !text-violet-800 hover:!text-violet-400"
+          className="btn cursor-pointer bg-white !text-green-600 hover:outline-2 hover:outline-offset-2"
           onClick={(): void => {
             navigate('/');
           }}

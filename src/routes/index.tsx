@@ -354,7 +354,10 @@ function Index(): JSX.Element {
         </div>
       </div>
       <div className="all-clear">
-        <button className="!border-rose-300 text-rose-300 hover:opacity-50" onClick={(): void => handleAllClear()}>
+        <button
+          className="!border-0 text-rose-300 hover:outline-2 hover:outline-offset-2"
+          onClick={(): void => handleAllClear()}
+        >
           全てクリア
         </button>
       </div>

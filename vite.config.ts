@@ -35,7 +35,7 @@ export default defineConfig( ( { mode } ) => {
       pure: mode === 'production' ? [ 'console.log' ] : []
     },
     build: {
-      sourcemap: true,
+      // sourcemap: true,
       rollupOptions: {
         plugins: [
           license( {

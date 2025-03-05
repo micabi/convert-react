@@ -5,18 +5,40 @@
     'Hiragino Kaku Gothic Pro', yugothic, meiryo, 'Lucida Grande', verdana, helvetica, arial, 'MS PGothic', sans-serif;
   --font-serif: 'Hiragino Mincho ProN', 'Hiragino Mincho Pro', 游明朝, 'Yu Mincho', yumincho, serif;
   --base-color: var(--color-neutral-800);
-  --breakpoint-xs: 24rem;
+  --transparent: transparent;
+  --font-inherit: inherit;
+
+  /* --breakpoint-xs: 24rem; */
 }
 
 @layer base {
   html {
     tab-size: 2;
   }
+
+  .btn {
+    padding: 0.6em 1.2em;
+    font-family: var(--font-inherit);
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: var(--base-color);
+    border: 1px solid var(--transparent);
+    border-color: var(--transparent) var(--transparent) var(--transparent) var(--transparent);
+    border-radius: 8px;
+    transition: border-color 0.25s;
+  }
 }
 
 @layer utilities {
   .sm\:w-3xs {
     width: var(--container-3xs);
+  }
+
+  @media (width >= 48rem) {
+    .md\:w-50-gap-x-5 {
+      width: calc(50% - calc(var(--spacing) * 5));
+    }
   }
 }
 
