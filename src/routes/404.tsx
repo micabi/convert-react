@@ -1,6 +1,7 @@
+import React from 'react';
 import '../App.scss';
 
-function Nomatch(): JSX.Element {
+function Nomatch(): React.JSX.Element {
   return (
     <>
       <p className="text-slate-400">404 Not Found</p>

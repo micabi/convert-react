@@ -1,4 +1,6 @@
-function ConvertTable(): JSX.Element {
+import React from 'react';
+
+function ConvertTable(): React.JSX.Element {
   return (
     <>
       <div className="mb-12">

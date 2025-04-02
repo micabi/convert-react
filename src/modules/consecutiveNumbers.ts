@@ -26,7 +26,7 @@ function consecutiveNumbers(textArray: string[]): (boolean | number)[] {
     }
   }
 
-  if (flag === true) {
+  if (flag) {
     return [true, invalidIndex + 1, invalidNextIndex + 1];
   } else {
     return [false];

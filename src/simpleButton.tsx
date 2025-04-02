@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-function SimpleButton(): JSX.Element {
+function SimpleButton(): React.JSX.Element {
   const [state, setState] = useState(false);
 
   function toggleBtn() {
     setState((prevState) => !prevState);
   }
 
-  return <button onClick={toggleBtn}>{state ? 'ON' : 'OFF'}</button>;
+  return (
+    <button type="button" onClick={toggleBtn}>
+      {state ? 'ON' : 'OFF'}
+    </button>
+  );
 }
 export { SimpleButton };

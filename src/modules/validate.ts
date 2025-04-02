@@ -4,7 +4,7 @@ import { zenkana2Hankana } from './zenkana2Hankana';
 /**
  * 引数に与えられた文字がﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789に該当するかどうか
  * @param(引数): {String}
- * @return(戻り値) {Boolean}
+ * @return(戻り値) {Boolean} 該当だったらtrueを返す 非該当だったらfalseを返す
  */
 function validate(text: string): boolean {
   const symbolReg = /[ﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789]/;
@@ -17,7 +17,8 @@ function validate(text: string): boolean {
 /**
  * 引数に与えられた配列の要素がﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789に該当するかどうか
  * @param(引数): {String}
- * @return(戻り値) {Boolean}
+ * @return(戻り値) {Boolean} 非該当だったらtrueとそのindexを返す
+ * @return(戻り値) {Boolean} 該当だったらfalseを返す
  */
 function validateSymbolArray(textArray: string[]): (boolean | number)[] {
   const symbolReg = /[ﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789]/;
@@ -38,7 +39,7 @@ function validateSymbolArray(textArray: string[]): (boolean | number)[] {
   }
 
   // console.log( `i: ${ arrayIndex }, flag: ${ flag }` );
-  if (flag === true) {
+  if (flag) {
     // indexを画面表示するために+1して返す
     return [true, arrayIndex + 1];
   } else {
@@ -49,7 +50,8 @@ function validateSymbolArray(textArray: string[]): (boolean | number)[] {
 /**
  * 引数に与えられた要素が+の直後に数値がきているかどうか判定する
  * @param(引数): {String}
- * @return(戻り値) {Boolean}
+ * @return(戻り値) {Boolean} 非該当だったらtrueとそのindexを返す
+ * @return(戻り値) {Boolean} 該当だったらfalseを返す
  */
 function plus2Numbers(text: string): (boolean | number)[] {
   const plusReg = /\+[2-9２-９]/g;
@@ -57,7 +59,7 @@ function plus2Numbers(text: string): (boolean | number)[] {
   const resultIndex: number = text.search(plusReg);
   // let flag = false;
 
-  if (result === true) {
+  if (result) {
     // flag = true;
     return [true, resultIndex];
   } else {
@@ -68,7 +70,8 @@ function plus2Numbers(text: string): (boolean | number)[] {
 /**
  * 引数に与えられた配列の各要素が[0-9]に該当するかどうか
  * @param(引数): {String}
- * @return(戻り値) {Boolean}
+ * @return(戻り値) {Boolean} 非該当だったらtrueとそのindexを返す
+ * @return(戻り値) {Boolean} 該当だったらfalseを返す
  */
 function validateNumArray(textArray: string[]): (number | boolean)[] {
   const numReg: RegExp = /[0-9０-９]/;
