@@ -1,6 +1,7 @@
+import React from 'react';
 function Number2SymbolInputArea(props: {
   inputNumberVal: string;
-  numberVal: string;
+  // numberVal: string;
   handleNumberChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errNumberText: string;
   finalNumberText: string;
@@ -10,7 +11,7 @@ function Number2SymbolInputArea(props: {
   activeNumberCopiedMsg: boolean;
   copyNumberBtnClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   clearNumber: () => void;
-}): JSX.Element {
+}): React.JSX.Element {
   // console.log(props);
 
   return (
@@ -24,28 +25,36 @@ function Number2SymbolInputArea(props: {
             placeholder="500000"
             aria-label="textbox"
             value={props.inputNumberVal}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => props.handleNumberChange(e)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+              props.handleNumberChange(e);
+            }}
             className="n2s bg-white p-2.5 outline-2 outline-yellow-200 focus:outline-yellow-400 sm:w-3xs"
           />
         </label>
         <button
+          type="button"
           className="mt-2 !border-yellow-600 !bg-yellow-600 text-white hover:!border-yellow-500 hover:!bg-yellow-500 hover:outline-2 hover:outline-offset-2 md:ml-2"
-          onClick={(): void => props.clearNumber()}
+          onClick={(): void => {
+            props.clearNumber();
+          }}
         >
           クリア
         </button>
       </div>
 
-      <div className={`output ${props.activateNumberOutput ? 'active' : ''} rounded-xl bg-white`}>
+      {/* <div className={`output ${props.activateNumberOutput ? 'active' : ''} rounded-xl bg-white`}>
         {props.numberVal}
-      </div>
+      </div> */}
       <div
         className={`final ${props.activateNumberFinal ? 'active' : ''} rounded-xl bg-green-50 outline-1 outline-green-600`}
       >
         <div className="result text-left">{props.finalNumberText}</div>
         <button
+          type="button"
           className="btn !bg-green-200 text-green-600"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>): void => props.copyNumberBtnClick(e)}
+          onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
+            props.copyNumberBtnClick(e);
+          }}
         >
           Copy
         </button>

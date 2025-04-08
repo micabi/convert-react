@@ -1,9 +1,11 @@
-function ConvertTable(): JSX.Element {
+import React from 'react';
+
+function ConvertTable(): React.JSX.Element {
   return (
     <>
       <div className="mb-12">
         <table className="w-full border border-violet-200 bg-violet-100">
-          <caption className="mb-6 font-bold text-violet-500">変換表</caption>
+          {/* <caption className="mb-6 font-bold text-violet-500">変換表</caption> */}
           <thead>
             <tr>
               <th scope="col" className="border border-violet-300 bg-violet-200 p-1 font-light">

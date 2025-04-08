@@ -1,6 +1,8 @@
+import React from 'react';
+
 function Symbol2NumberInputArea(props: {
   inputSymbolVal: string;
-  symbol: string;
+  // symbol: string;
   handleSymbolChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errSymbolText: string;
   finalSymbolText: string;
@@ -10,7 +12,7 @@ function Symbol2NumberInputArea(props: {
   activeSymbolCopiedMsg: boolean;
   copySymbolBtnClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   clearSymbol: () => void;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <>
       <div className="input">
@@ -22,26 +24,34 @@ function Symbol2NumberInputArea(props: {
             type="text"
             placeholder="ﾖｷｸﾗｼ"
             value={props.inputSymbolVal}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => props.handleSymbolChange(e)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+              props.handleSymbolChange(e);
+            }}
             className="s2n bg-white p-2.5 outline-2 outline-purple-200 focus:outline-purple-400 sm:w-3xs"
           />
         </label>
         <button
+          type="button"
           className="mt-2 !border-violet-900 !bg-violet-900 text-white hover:!border-violet-600 hover:!bg-violet-600 hover:outline-2 hover:outline-offset-2 md:ml-2"
-          onClick={(): void => props.clearSymbol()}
+          onClick={(): void => {
+            props.clearSymbol();
+          }}
         >
           クリア
         </button>
       </div>
 
-      <div className={`output ${props.activateSymbolOutput ? 'active' : ''} rounded-xl bg-white`}>{props.symbol}</div>
+      {/* <div className={`output ${props.activateSymbolOutput ? 'active' : ''} rounded-xl bg-white`}>{props.symbol}</div> */}
       <div
         className={`final ${props.activateSymbolFinal ? 'active' : ''} rounded-xl bg-green-50 outline-1 outline-green-600`}
       >
         <div className="result text-left">{props.finalSymbolText}</div>
         <button
+          type="button"
           className="btn !bg-green-200 text-green-600"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>): void => props.copySymbolBtnClick(e)}
+          onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
+            props.copySymbolBtnClick(e);
+          }}
         >
           Copy
         </button>

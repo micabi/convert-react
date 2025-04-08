@@ -1,9 +1,10 @@
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Index from './routes/index';
 import Help from './routes/help';
 import Nomatch from './routes/404';
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   return (
     <>
       <Routes>
