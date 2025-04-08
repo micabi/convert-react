@@ -4,7 +4,7 @@
  * Version: 0.0.1
  * License: MIT
  * Private: true
- * Description: ore
+ * Description: 記号を数値に・数値を記号に変換するアプリ
  * Repository: https://github.com/micabi/convert
  * Author: micabi <info@codecode.xyz>
  * License Copyright:
@@ -27,6 +27,7 @@ import {
   validateNumArray,
   plus2Numbers,
 } from '../modules/validate';
+import { hira2ZenKana } from '../modules/hira2Kana';
 import { zenNum2HanNum } from '../modules/zenNum2HanNum';
 import { changeTag } from '../modules/convertSymbol2Number';
 import { changeNum2Symbol } from '../modules/convertNumber2Symbol';
@@ -47,14 +48,18 @@ function Index(): React.JSX.Element {
   function handleSymbolChange(e: React.ChangeEvent<HTMLInputElement>): void {
     const inputtext: string = e.target.value;
     setInputSymbolVal(inputtext); // input[value]には入力されたそのままを表示
+
     const inputArray: string[] = inputtext.split(''); // 配列に入れる
-    console.log(`inputArray`, inputArray);
+    console.log(`53 inputArray`, inputArray);
     let isOkay: boolean = true;
 
     // 配列の要素を1つずつバリデーション
     inputArray.forEach((element: string, index: number): void => {
+      element = hira2ZenKana(element); // ひらがなを全角カタカナに変換
+      inputArray[index] = element; // 配列の要素を全角カタカナと全角or半角数字に変換したものに置き換える
       const isValidate: boolean = validate(element); // ﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789かどうか
-      console.log(`isValidate: ${String(isValidate)} element: ${element}`);
+
+      console.log(`62 isValidate: ${String(isValidate)} element: ${element}`);
 
       if (!isValidate) {
         const errMsg: string = `「${element}」は許可されていない文字です。
@@ -68,9 +73,10 @@ function Index(): React.JSX.Element {
         // index0が数字でもﾒでもない場合
         setErrorSymbolText('');
         setSymbolErr(false);
-        // }
       }
     });
+
+    console.log(`79 inputArray`, inputArray);
 
     // 配列の要素全体に対してバリデーション(数字が連続したら非表示にする)
     const isNum2Numbers: (number | boolean)[] = consecutiveNumbers(inputArray);
@@ -86,7 +92,7 @@ function Index(): React.JSX.Element {
 
     // 配列の要素全体に対してバリデーション(不適切な文字(=RegEXにない文字)が入ったまま強行入力を続けた場合に非表示にする)
     const isInvalidArray: (boolean | number)[] = validateSymbolArray(inputArray);
-    console.log(`isInvalidArray`, isInvalidArray);
+    console.log(`95 isInvalidArray`, isInvalidArray);
     if (isInvalidArray[0] === false) {
       isOkay = false;
       const arrayIndex = isInvalidArray[1] as number;
@@ -100,7 +106,7 @@ function Index(): React.JSX.Element {
 
     // 配列の要素全体に対してバリデーション(+のすぐ後ろに数字がきた場合は非表示にする)
     const plus2: (boolean | number)[] = plus2Numbers(inputtext);
-    console.log(`plus2`, plus2);
+    console.log(`109 plus2`, plus2);
     if (plus2[0] === false) {
       isOkay = false;
       const plusIndex = plus2[1] as number;
@@ -145,9 +151,14 @@ function Index(): React.JSX.Element {
 
     if (isOkay) {
       // 全部のバリデーションを通過したら
-      console.log(`inputtext: `, inputtext);
+      console.log(`154 inputtext: `, inputtext);
+      console.log(`155 inputArray: `, inputArray);
+      // ひらがなを全角カタカナに変換した状態で変換前最終の配列を作成する。数字は全角でも半角でもOK
+      const finalSymbolText: string = inputArray.join('');
+      console.log(`158 finalSymbolText: `, finalSymbolText);
+
       // 記号から数字に変換
-      const result: string = changeTag(inputtext);
+      const result: string = changeTag(finalSymbolText); // ここでカナ記号・数字記号ともに半角にしてから数値化
       // 変換後の数字を画面に表示
       setFinalSymbolText(result);
       setActivateSymbolOutput(true);

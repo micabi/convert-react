@@ -16,7 +16,7 @@ function changeTag(val: string): string {
   // 受け取った引数を1文字ずつ分割する
   const letters: string[] = val.split('');
   // 半角になった「゛」は1要素として分割されてlettersに入る
-  console.log(`letters`, letters);
+  console.log(`19 letters`, letters);
 
   letters.forEach((element: string): void => {
     // ここでバリデーションを行う必要はないが念のため
