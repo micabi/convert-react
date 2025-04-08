@@ -10,26 +10,7 @@ import { symbolReg, numReg, consecutiveNumReg, plusReg, endPlusReg } from './con
  */
 function validate(text: string): boolean {
   // 入力値を1文字ずつバリデーションする段階では大文字・小文字の区別はしないで通す
-  let resultValidate: boolean = symbolReg.test(text);
-
-  // 濁点のついた文字は分割されてバリデーションを通過してしまうのでここで除外する
-  if (
-    text === 'ギ' ||
-    text === 'グ' ||
-    text === 'ジ' ||
-    text === 'ゴ' ||
-    text === 'ヅ' ||
-    text === 'ド' ||
-    text === 'ｷﾞ' ||
-    text === 'ｸﾞ' ||
-    text === 'ｼﾞ' ||
-    text === 'ｺﾞ' ||
-    text === 'ﾂﾞ' ||
-    text === 'ﾄﾞ'
-  ) {
-    resultValidate = false;
-  }
-
+  const resultValidate: boolean = symbolReg.test(text);
   return resultValidate;
 }
 
@@ -70,7 +51,7 @@ function consecutiveNumbers(textArray: string[]): (boolean | number)[] {
  * @description 引数に与えられた配列の要素がﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789に該当するかどうか
  */
 function validateSymbolArray(textArray: string[]): (boolean | number)[] {
-  console.log(`textArray:`, textArray);
+  console.log(`54 textArray:`, textArray);
   let flag: boolean = true;
   let arrayIndex: number = 0;
   let convertedText: string = '';
@@ -80,7 +61,7 @@ function validateSymbolArray(textArray: string[]): (boolean | number)[] {
     convertedText = zenNum2HanNum(textArray[i]); // 全角数字を半角数字に変換
     convertedText = zenkana2Hankana(convertedText); // 全角カナを半角カナに変換
     const resultValidate: boolean = symbolReg.test(convertedText);
-    console.log(`resultValidate: ${String(resultValidate)}`);
+    console.log(`64 resultValidate: ${String(resultValidate)}`);
     // 濁点のついた半角カナ文字は分割されてバリデーションを通過してしまうのでここで除外する
     if (
       !resultValidate ||
