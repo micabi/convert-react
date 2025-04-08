@@ -19,6 +19,7 @@ import { Number2SymbolInputArea } from '../number2symbol';
 // import { SimpleButton } from './simpleButton';
 import {
   validate,
+  consecutiveNumbers,
   validateSymbolArray,
   startNum,
   endPlus,
@@ -29,7 +30,6 @@ import {
 import { zenNum2HanNum } from '../modules/zenNum2HanNum';
 import { changeTag } from '../modules/convertSymbol2Number';
 import { changeNum2Symbol } from '../modules/convertNumber2Symbol';
-import { consecutiveNumbers } from '../modules/consecutiveNumbers';
 
 function Index(): React.JSX.Element {
   const navigate: NavigateFunction = useNavigate();
@@ -72,9 +72,9 @@ function Index(): React.JSX.Element {
       }
     });
 
-    // 配列の要素全体に対してバリデーション(数字が連続したらエラー)
+    // 配列の要素全体に対してバリデーション(数字が連続したら非表示にする)
     const isNum2Numbers: (number | boolean)[] = consecutiveNumbers(inputArray);
-    if (isNum2Numbers[0] === true) {
+    if (isNum2Numbers[0] === false) {
       isOkay = false;
       const errMsg: string = `数字が連続することは不適切です。(${String(isNum2Numbers[2])}番目の文字)`;
       setErrorSymbolText(errMsg);
@@ -84,7 +84,7 @@ function Index(): React.JSX.Element {
       setFinalSymbolText('');
     }
 
-    // 配列の要素全体に対してバリデーション(不適切な文字(=RegEXにない文字)が入ったまま強行入力を続けた場合)
+    // 配列の要素全体に対してバリデーション(不適切な文字(=RegEXにない文字)が入ったまま強行入力を続けた場合に非表示にする)
     const isInvalidArray: (boolean | number)[] = validateSymbolArray(inputArray);
     console.log(`isInvalidArray`, isInvalidArray);
     if (isInvalidArray[0] === false) {
@@ -98,7 +98,7 @@ function Index(): React.JSX.Element {
       setFinalSymbolText('');
     }
 
-    // 配列の要素全体に対してバリデーション(+のすぐ後ろに数字がきた場合)
+    // 配列の要素全体に対してバリデーション(+のすぐ後ろに数字がきた場合は非表示にする)
     const plus2: (boolean | number)[] = plus2Numbers(inputtext);
     console.log(`plus2`, plus2);
     if (plus2[0] === false) {
@@ -113,7 +113,7 @@ function Index(): React.JSX.Element {
       setFinalSymbolText('');
     }
 
-    // 配列の要素全体に対してバリデーション(数字で始まる)
+    // 配列の要素全体に対してバリデーション(数字で始まっていたら非表示にする)
     if (startNum(inputArray)) {
       isOkay = false;
       const errMsg: string = `数字で始まることは不適切です。`;
@@ -123,7 +123,7 @@ function Index(): React.JSX.Element {
       setActivateSymbolFinal(false);
     }
 
-    // 配列の要素全体に対してバリデーション(メで始まる)
+    // 配列の要素全体に対してバリデーション(メで始まっていたら非表示にする)
     if (inputArray[0] === 'ﾒ' || inputArray[0] === 'メ' || inputArray[0] === 'め') {
       isOkay = false;
       const errMsg: string = `0で始まることは不適切です。`;
@@ -133,7 +133,7 @@ function Index(): React.JSX.Element {
       setActivateSymbolFinal(false);
     }
 
-    // 配列の要素全体に対してバリデーション(+で終わる)
+    // 配列の要素全体に対してバリデーション(+で終わっていたら非表示にする)
     if (endPlus(inputArray)) {
       isOkay = false;
       const errMsg: string = `+で終わることは不適切です。`;

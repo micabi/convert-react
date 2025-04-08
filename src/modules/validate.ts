@@ -1,11 +1,12 @@
 import { zenNum2HanNum } from './zenNum2HanNum';
 import { zenkana2Hankana } from './zenkana2Hankana';
-import { symbolReg, numReg, plusReg, endPlusReg } from './convertReg';
+import { symbolReg, numReg, consecutiveNumReg, plusReg, endPlusReg } from './convertReg';
 
 /**
- * 引数に与えられた文字がﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789に該当するかどうか
  * @param(引数): {String}
- * @return(戻り値) {Boolean} 該当だったらtrueを返す 非該当だったらfalseを返す
+ * @return(戻り値) {Boolean} 非該当だったらfalseとそのindexを返す
+ * @return(戻り値) {Boolean} 該当だったらtrueを返す
+ * @description: 文字列を1文字ずつバリデーションする。引数に与えられた文字がﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789に該当するかどうか
  */
 function validate(text: string): boolean {
   // 入力値を1文字ずつバリデーションする段階では大文字・小文字の区別はしないで通す
@@ -33,10 +34,40 @@ function validate(text: string): boolean {
 }
 
 /**
- * 引数に与えられた配列の要素がﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789に該当するかどうか
  * @param(引数): {String}
- * @return(戻り値) {Boolean} 非該当だったらtrueとそのindexを返す
- * @return(戻り値) {Boolean} 該当だったらfalseを返す
+ * @return(戻り値) {Boolean} 非該当だったらfalseとそのindexを返す
+ * @return(戻り値) {Boolean}  該当だったらtrueを返す
+ * @description: 与えられた文字列の配列内に数値が連続しているところがあるか判定する
+ */
+function consecutiveNumbers(textArray: string[]): (boolean | number)[] {
+  // const convertNumber: string[] = [];
+  let flag: boolean = true;
+  let invalidIndex: number = 0;
+  let invalidNextIndex: number = 0;
+
+  for (let i: number = 0; i < textArray.length; i++) {
+    // if ( !isNaN( convertNumber[ i ] ) && !isNaN( convertNumber[ i + 1 ] ) ) {
+    if (consecutiveNumReg.test(textArray[i]) && consecutiveNumReg.test(textArray[i + 1])) {
+      // console.log( "連続した数値がありました" );
+      flag = false;
+      invalidIndex = i;
+      invalidNextIndex = i + 1;
+      break;
+    }
+  }
+
+  if (!flag) {
+    return [false, invalidIndex + 1, invalidNextIndex + 1];
+  } else {
+    return [true];
+  }
+}
+
+/**
+ * @param(引数): {String}
+ * @return(戻り値) {Boolean} 非該当だったらfalseとそのindexを返す
+ * @return(戻り値) {Boolean} 該当だったらtrueを返す
+ * @description 引数に与えられた配列の要素がﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789に該当するかどうか
  */
 function validateSymbolArray(textArray: string[]): (boolean | number)[] {
   console.log(`textArray:`, textArray);
@@ -76,10 +107,10 @@ function validateSymbolArray(textArray: string[]): (boolean | number)[] {
 }
 
 /**
- * 引数に与えられた要素が+の直後に数値がきているかどうか判定する
  * @param(引数): {String}
- * @return(戻り値) {Boolean} 非該当だったらtrueとそのindexを返す
- * @return(戻り値) {Boolean} 該当だったらfalseを返す
+ * @return(戻り値) {Boolean} 非該当だったらfalseとそのindexを返す
+ * @return(戻り値) {Boolean} 該当だったらtrueを返す
+ * @description 引数に与えられた要素が+の直後に数値がきているかどうか判定する
  */
 function plus2Numbers(text: string): (boolean | number)[] {
   const result: boolean = plusReg.test(text);
@@ -95,9 +126,9 @@ function plus2Numbers(text: string): (boolean | number)[] {
 }
 
 /**
- * 引数に与えられた配列要素が数字で始まるかどうか
  * @param(引数): {String}
  * @return(戻り値) {Boolean} 該当だったらtrueを返す 非該当だったらfalseを返す
+ * @description 引数に与えられた配列要素が数字で始まるかどうか
  */
 function startNum(textArray: string[]): boolean {
   const result: boolean = numReg.test(textArray[0]);
@@ -105,9 +136,9 @@ function startNum(textArray: string[]): boolean {
 }
 
 /**
- * 引数に与えられた配列要素が+で終わるかどうか
  * @param(引数): {String}
  * @return(戻り値) {Boolean} 該当だったらtrueを返す 非該当だったらfalseを返す
+ * @description 引数に与えられた配列要素が+で終わるかどうか
  */
 function endPlus(textArray: string[]): boolean {
   const result: boolean = endPlusReg.test(textArray.join(''));
@@ -115,9 +146,10 @@ function endPlus(textArray: string[]): boolean {
 }
 
 /**
- * 引数に与えられた文字が0123456789に該当するかどうか
  * @param(引数): {String}
- * @return(戻り値) {Boolean} 該当だったらtrueを返す 非該当だったらfalseを返す
+ * @return(戻り値) {Boolean} 非該当だったらfalseを返す
+ * @returns(戻り値) {Boolean} 該当だったらtrueを返す
+ * @description 引数に与えられた文字が0123456789に該当するかどうか
  */
 function validateNum(text: string): boolean {
   const resultValidate: boolean = numReg.test(text);
@@ -125,10 +157,10 @@ function validateNum(text: string): boolean {
 }
 
 /**
- * 引数に与えられた配列の各要素が[0-9]に該当するかどうか
  * @param(引数): {String}
  * @return(戻り値) {Boolean} 非該当だったらfalseとそのindexを返す
  * @return(戻り値) {Boolean} 該当だったらtrueを返す
+ * @description 引数に与えられた配列の各要素が[0-9]に該当するかどうか
  */
 function validateNumArray(textArray: string[]): (number | boolean)[] {
   let flag: boolean = true;
@@ -148,4 +180,13 @@ function validateNumArray(textArray: string[]): (number | boolean)[] {
     return [true];
   }
 }
-export { validate, validateSymbolArray, startNum, endPlus, validateNum, validateNumArray, plus2Numbers };
+export {
+  validate,
+  consecutiveNumbers,
+  validateSymbolArray,
+  startNum,
+  endPlus,
+  validateNum,
+  validateNumArray,
+  plus2Numbers,
+};
