@@ -1,52 +1,68 @@
+import { symbolReg } from './convertReg';
+import { zenkana2Hankana } from './zenkana2Hankana';
+import { zenNum2HanNum } from './zenNum2HanNum';
+
+/**
+ * バリデーションを通過した安全な文字列を数値に変換する
+ * @param(引数): {String} 変換後の文字列(記号)
+ * @return(戻り値) {String} 変換後の文字列(数字)
+ */
 function changeTag(val: string): string {
+  val = zenNum2HanNum(val); // 全角数字を半角数字に変換
+  val = zenkana2Hankana(val); // 全角カナを半角カナに変換
+
   // 変換後の文字列を格納する配列
-  const pureTag: string[] = [];
+  const nums: string[] = [];
   // 受け取った引数を1文字ずつ分割する
   const letters: string[] = val.split('');
+  // 半角になった「゛」は1要素として分割されてlettersに入る
+  console.log(`letters`, letters);
 
   letters.forEach((element: string): void => {
-    const elmReg: RegExp = new RegExp(/[ﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789]/);
-    const isMatch: boolean = elmReg.test(element);
+    // ここでバリデーションを行う必要はないが念のため
+    const isMatch: boolean = symbolReg.test(element);
+
     if (!isMatch) {
+      // 半角になった「゛」はl分割されてettersに入り、ここでエラーが出るためvalidateSymbolArrayの段階で弾く。
       throw new Error(`この記号は使用できません: ${element}`);
     }
 
     switch (element) {
       case 'ﾖ':
-        pureTag.push('1');
+        nums.push('1');
         break;
       case 'ｷ':
-        pureTag.push('2');
+        nums.push('2');
         break;
       case 'ｸ':
-        pureTag.push('3');
+        nums.push('3');
         break;
       case 'ﾗ':
-        pureTag.push('4');
+        nums.push('4');
         break;
       case 'ｼ':
-        pureTag.push('5');
+        nums.push('5');
         break;
       case 'ｺ':
-        pureTag.push('6');
+        nums.push('6');
         break;
       case 'ﾚ':
-        pureTag.push('7');
+        nums.push('7');
         break;
       case 'ﾂ':
-        pureTag.push('8');
+        nums.push('8');
         break;
       case 'ﾄ':
-        pureTag.push('9');
+        nums.push('9');
         break;
       case 'ﾒ':
-        pureTag.push('0');
+        nums.push('0');
         break;
       case '':
-        pureTag.push('');
+        nums.push('');
         break;
       case '+':
-        pureTag.push('+');
+        nums.push('+');
         break;
       default:
         {
@@ -56,12 +72,12 @@ function changeTag(val: string): string {
           // 要素が数値だった場合(5)
           if (!isNaN(isNumber)) {
             // ひとつ前の要素を取得(ﾒ)
-            const prevElement: string = pureTag[pureTag.length - 1];
+            const prevElement: string = nums[nums.length - 1];
             // ひとつ前の要素を削除
-            pureTag.pop();
+            nums.pop();
             // ひとつ前の要素(ﾒ)と同じ値('0')をelementNumberの数だけ追加
             for (let j: number = 0; j < isNumber; j++) {
-              pureTag.push(prevElement);
+              nums.push(prevElement);
             }
           }
         }
@@ -69,8 +85,11 @@ function changeTag(val: string): string {
     }
   });
 
+  console.log(`nums: ${String(nums)}`);
+  // ここからは省略記法で入力された記号を数値に変換する処理
+
   // いったん全部文字列に連結する
-  const text: string = pureTag.join('');
+  const text: string = nums.join('');
   // '+'で分割する
   const textArray: string[] = text.split('+');
   let returnText: string = '';

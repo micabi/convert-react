@@ -2,7 +2,7 @@ import React from 'react';
 
 function Symbol2NumberInputArea(props: {
   inputSymbolVal: string;
-  symbol: string;
+  // symbol: string;
   handleSymbolChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errSymbolText: string;
   finalSymbolText: string;
@@ -41,7 +41,7 @@ function Symbol2NumberInputArea(props: {
         </button>
       </div>
 
-      <div className={`output ${props.activateSymbolOutput ? 'active' : ''} rounded-xl bg-white`}>{props.symbol}</div>
+      {/* <div className={`output ${props.activateSymbolOutput ? 'active' : ''} rounded-xl bg-white`}>{props.symbol}</div> */}
       <div
         className={`final ${props.activateSymbolFinal ? 'active' : ''} rounded-xl bg-green-50 outline-1 outline-green-600`}
       >

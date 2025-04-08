@@ -17,8 +17,15 @@ import { ConvertTable } from '../table';
 import { Symbol2NumberInputArea } from '../symbol2number';
 import { Number2SymbolInputArea } from '../number2symbol';
 // import { SimpleButton } from './simpleButton';
-import { validate, validateSymbolArray, validateNumArray, plus2Numbers } from '../modules/validate';
-import { zenkana2Hankana } from '../modules/zenkana2Hankana';
+import {
+  validate,
+  validateSymbolArray,
+  startNum,
+  endPlus,
+  validateNum,
+  validateNumArray,
+  plus2Numbers,
+} from '../modules/validate';
 import { zenNum2HanNum } from '../modules/zenNum2HanNum';
 import { changeTag } from '../modules/convertSymbol2Number';
 import { changeNum2Symbol } from '../modules/convertNumber2Symbol';
@@ -28,55 +35,44 @@ function Index(): React.JSX.Element {
   const navigate: NavigateFunction = useNavigate();
 
   // 記号から数字への変換
-  const [inputSymbolVal, setInputSymbolVal] = useState('');
-  const [symbol, setSymbol] = useState('');
+  const [inputSymbolVal, setInputSymbolVal] = useState(''); // input[value]
+  // const [symbol, setSymbol] = useState('');
   const [symbolErr, setSymbolErr] = useState(false);
   const [errSymbolText, setErrorSymbolText] = useState('');
-  const [finalSymbolText, setFinalSymbolText] = useState('');
+  const [finalSymbolText, setFinalSymbolText] = useState(''); // 変換後の値
   const [activateSymbolOutput, setActivateSymbolOutput] = useState(false);
   const [activateSymbolFinal, setActivateSymbolFinal] = useState(false);
   const [activeSymbolCopiedMsg, setActiveSymbolCopiedMsg] = useState(false);
 
   function handleSymbolChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    let inputtext: string = e.target.value;
-    setInputSymbolVal(inputtext);
-    const inputArray: string[] = inputtext.split('');
+    const inputtext: string = e.target.value;
+    setInputSymbolVal(inputtext); // input[value]には入力されたそのままを表示
+    const inputArray: string[] = inputtext.split(''); // 配列に入れる
+    console.log(`inputArray`, inputArray);
     let isOkay: boolean = true;
 
-    // 入力される値1文字ずつにバリデーション
+    // 配列の要素を1つずつバリデーション
     inputArray.forEach((element: string, index: number): void => {
-      element = zenkana2Hankana(element); // 全角カナを半角カナに変換
-      element = zenNum2HanNum(element); // 全角数字を半角数字に変換
       const isValidate: boolean = validate(element); // ﾖｷｸﾗｼｺﾚﾂﾄﾒ+23456789かどうか
+      console.log(`isValidate: ${String(isValidate)} element: ${element}`);
 
       if (!isValidate) {
         const errMsg: string = `「${element}」は許可されていない文字です。
         (${String(index + 1)}番目の文字)`;
         setErrorSymbolText(errMsg);
-        setSymbol('');
+        // setSymbol('');
         setSymbolErr(true);
         setActivateSymbolOutput(false);
         setActivateSymbolFinal(false);
       } else {
-        if (index === 0 && !isNaN(Number(element))) {
-          // index0が数値の場合はエラー
-          const errMsg: string = `数字で始まることは不適切です。(${String(index + 1)}番目の文字)`;
-          setErrorSymbolText(errMsg);
-          setSymbolErr(true);
-        } else if (index === 0 && element === 'ﾒ') {
-          // index0が数値がﾒで始まる場合
-          const errMsg: string = `「ﾒ」で始まることは不適切です。(${String(index + 1)}番目の文字)`;
-          setErrorSymbolText(errMsg);
-          setSymbolErr(true);
-        } else {
-          // index0が数字でもﾒでもない場合
-          setErrorSymbolText('');
-          setSymbolErr(false);
-        }
+        // index0が数字でもﾒでもない場合
+        setErrorSymbolText('');
+        setSymbolErr(false);
+        // }
       }
     });
 
-    // 入力された値全体に対してバリデーション(数字が連続したらエラー)
+    // 配列の要素全体に対してバリデーション(数字が連続したらエラー)
     const isNum2Numbers: (number | boolean)[] = consecutiveNumbers(inputArray);
     if (isNum2Numbers[0] === true) {
       isOkay = false;
@@ -88,12 +84,13 @@ function Index(): React.JSX.Element {
       setFinalSymbolText('');
     }
 
-    // 入力された値全体に対してバリデーション(不適切な文字(=RegEXにない文字)が入ったまま強行入力を続けた場合)
+    // 配列の要素全体に対してバリデーション(不適切な文字(=RegEXにない文字)が入ったまま強行入力を続けた場合)
     const isInvalidArray: (boolean | number)[] = validateSymbolArray(inputArray);
-    if (isInvalidArray[0] === true) {
+    console.log(`isInvalidArray`, isInvalidArray);
+    if (isInvalidArray[0] === false) {
       isOkay = false;
       const arrayIndex = isInvalidArray[1] as number;
-      const errMsg: string = `不適切な文字が入っています。(${String(isInvalidArray[1])}番目の文字)「${inputArray[arrayIndex - 1]}」`;
+      const errMsg: string = `「${inputArray[arrayIndex - 1]}」は不適切な文字です。(${String(isInvalidArray[1])}番目の文字)`;
       setErrorSymbolText(errMsg);
       setSymbolErr(true);
       setActivateSymbolOutput(false);
@@ -101,31 +98,66 @@ function Index(): React.JSX.Element {
       setFinalSymbolText('');
     }
 
-    // 入力された値全体に対してバリデーション(+のすぐ後ろに数字がきた場合)
+    // 配列の要素全体に対してバリデーション(+のすぐ後ろに数字がきた場合)
     const plus2: (boolean | number)[] = plus2Numbers(inputtext);
-    if (plus2[0] === true) {
+    console.log(`plus2`, plus2);
+    if (plus2[0] === false) {
       isOkay = false;
       const plusIndex = plus2[1] as number;
-      const errMsg: string = `「+」のすぐ後ろに数字が続くことは不適切です。(${String(plusIndex - 1)}番目の文字)`;
+      console.log(`plusIndex`, plusIndex);
+      const errMsg: string = `「+」のすぐ後ろに数字が続くことは不適切です。(${String(plusIndex + 2)}番目の文字)`;
       setErrorSymbolText(errMsg);
       setSymbolErr(true);
       setActivateSymbolOutput(false);
       setActivateSymbolFinal(false);
       setFinalSymbolText('');
+    }
+
+    // 配列の要素全体に対してバリデーション(数字で始まる)
+    if (startNum(inputArray)) {
+      isOkay = false;
+      const errMsg: string = `数字で始まることは不適切です。`;
+      setErrorSymbolText(errMsg);
+      setSymbolErr(true);
+      setActivateSymbolOutput(false);
+      setActivateSymbolFinal(false);
+    }
+
+    // 配列の要素全体に対してバリデーション(メで始まる)
+    if (inputArray[0] === 'ﾒ' || inputArray[0] === 'メ' || inputArray[0] === 'め') {
+      isOkay = false;
+      const errMsg: string = `0で始まることは不適切です。`;
+      setErrorSymbolText(errMsg);
+      setSymbolErr(true);
+      setActivateSymbolOutput(false);
+      setActivateSymbolFinal(false);
+    }
+
+    // 配列の要素全体に対してバリデーション(+で終わる)
+    if (endPlus(inputArray)) {
+      isOkay = false;
+      const errMsg: string = `+で終わることは不適切です。`;
+      setErrorSymbolText(errMsg);
+      setSymbolErr(true);
+      setActivateSymbolOutput(false);
+      setActivateSymbolFinal(false);
     }
 
     if (isOkay) {
-      inputtext = zenNum2HanNum(inputtext);
-      inputtext = zenkana2Hankana(inputtext);
+      // 全部のバリデーションを通過したら
+      console.log(`inputtext: `, inputtext);
+      // 記号から数字に変換
       const result: string = changeTag(inputtext);
-      setSymbol(result);
+      // 変換後の数字を画面に表示
       setFinalSymbolText(result);
       setActivateSymbolOutput(true);
       setActivateSymbolFinal(true);
     }
 
     if (inputArray.length === 0) {
-      setSymbol('');
+      // input[value]が空になったら
+      // 結果を画面から非表示にする
+      // setSymbol('');
       setErrorSymbolText('');
       setFinalSymbolText('');
       setSymbolErr(false);
@@ -160,7 +192,7 @@ function Index(): React.JSX.Element {
   // input内容のクリア(記号)
   function clearSymbol(): void {
     setInputSymbolVal('');
-    setSymbol('');
+    // setSymbol('');
     setErrorSymbolText('');
     setFinalSymbolText('');
     setActivateSymbolOutput(false);
@@ -176,7 +208,7 @@ function Index(): React.JSX.Element {
 
   // 数字から記号への変換
   const [inputNumberVal, setInputNumberVal] = useState('');
-  const [numberVal, setNumberVal] = useState('');
+  // const [numberVal, setNumberVal] = useState('');
   const [numberErr, seTNumberErr] = useState(false);
   const [errNumberText, setErrNumberText] = useState('');
   const [finalNumberText, setFinalNumberText] = useState('');
@@ -187,19 +219,20 @@ function Index(): React.JSX.Element {
   function handleNumberChange(e: React.ChangeEvent<HTMLInputElement>): void {
     let numbertext: string = e.target.value;
     setInputNumberVal(numbertext);
-    const numReg = /[0-9０-９]/;
+
     const inputArray: string[] = numbertext.split('');
     console.log(inputArray);
     let isOkay: boolean = true;
 
     // 入力される値1文字ずつにバリデーション
     inputArray.forEach((element: string, index: number): void => {
-      if (!numReg.test(element)) {
+      if (!validateNum(element)) {
         seTNumberErr(true);
         setActivateNumberFinal(false);
         const errMsg: string = `数字ではない値です。(${String(index + 1)}番目の値)`;
         setErrNumberText(errMsg);
       } else {
+        // 全角数字だったら半角数字に変換しておく
         element = zenNum2HanNum(element);
       }
     });
@@ -207,12 +240,12 @@ function Index(): React.JSX.Element {
     // 入力された値全体に対してバリデーション
     const isInvalidArray: (boolean | number)[] = validateNumArray(inputArray);
     console.log(isInvalidArray);
-    if (isInvalidArray[0] === true) {
+    if (isInvalidArray[0] === false) {
       // [0-9]に該当しなかったら
       isOkay = false;
       const arrayIndex = isInvalidArray[1] as number;
       console.log(arrayIndex);
-      const errMsg: string = `不適切な文字が入っています。(${String(arrayIndex)}番目の文字  「${inputArray[arrayIndex - 1]}」)`;
+      const errMsg: string = `「${inputArray[arrayIndex - 1]}」は不適切な文字です。(${String(arrayIndex)}番目の文字)`;
       setErrNumberText(errMsg);
       seTNumberErr(true);
       setActivateNumberOutput(false);
@@ -222,7 +255,7 @@ function Index(): React.JSX.Element {
     if (inputArray[0] === '0') {
       // 先頭が0だったら
       isOkay = false;
-      const errMsg: string = `0で始まる金額は不適切です。`;
+      const errMsg: string = `0で始まることは不適切です。`;
       setErrNumberText(errMsg);
       seTNumberErr(true);
       setActivateNumberOutput(false);
@@ -232,7 +265,7 @@ function Index(): React.JSX.Element {
     if (isOkay) {
       numbertext = zenNum2HanNum(numbertext);
       const result: string = changeNum2Symbol(numbertext);
-      setNumberVal(result);
+      // setNumberVal(result);
       setFinalNumberText(result);
       setActivateNumberOutput(true);
       setActivateNumberFinal(true);
@@ -240,7 +273,7 @@ function Index(): React.JSX.Element {
     }
 
     if (inputArray.length === 0) {
-      setNumberVal('');
+      // setNumberVal('');
       setErrNumberText('');
       setActivateNumberOutput(false);
       setActivateNumberFinal(false);
@@ -274,7 +307,7 @@ function Index(): React.JSX.Element {
   // input内容のクリア(数値)
   function clearNumber(): void {
     setInputNumberVal('');
-    setNumberVal('');
+    // setNumberVal('');
     setErrNumberText('');
     setFinalNumberText('');
     setActivateNumberOutput(false);
@@ -314,7 +347,7 @@ function Index(): React.JSX.Element {
         <div className="box md:w-1/2">
           <Symbol2NumberInputArea
             inputSymbolVal={inputSymbolVal}
-            symbol={symbol}
+            // symbol={symbol}
             handleSymbolChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
               handleSymbolChange(e);
             }}
@@ -333,7 +366,7 @@ function Index(): React.JSX.Element {
         <div className="box md:w-1/2">
           <Number2SymbolInputArea
             inputNumberVal={inputNumberVal}
-            numberVal={numberVal}
+            // numberVal={numberVal}
             handleNumberChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
               handleNumberChange(e);
             }}

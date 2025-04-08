@@ -1,13 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Symbol2NumberInputArea } from '../symbol2number';
+import React from 'react';
 
 test('inputAreaは表示される', (): void => {
   render(
     <Symbol2NumberInputArea
       inputSymbolVal=""
-      symbol=""
-      handleSymbolChange={(e): void => {
+      // symbol=""
+      handleSymbolChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
         e;
       }}
       errSymbolText=""
